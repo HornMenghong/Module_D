@@ -1,0 +1,18 @@
+#stage {
+  perspective: 1000px; /* needed for 3D rotation to look real */
+}
+
+
+.theme-f .slide {
+  position: relative;
+  transition: transform 0.7s;
+  transform: rotateY(90deg);
+}
+
+.theme-f .slide.show {
+  transform: rotateY(45deg);
+}
+
+.theme-f .slide.hide {
+  transform: rotateY(-90deg);
+}

@@ -1,0 +1,9 @@
+.theme-g .slide {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.8s, transform 0.8s;
+}
+.theme-g .slide.show {
+  opacity: 1;
+  transform: scale(1);
+}

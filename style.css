@@ -1,0 +1,84 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #eee;
+}
+
+#dropzone {
+  border: 2px dashed #999;
+  padding: 15px;
+  text-align: center;
+  margin: 10px;
+  cursor: pointer;
+}
+
+/* the box where photos show up */
+#stage {
+  position: relative;
+  width: 800px;
+  max-width: 95vw;
+  height: 450px;
+  margin: 10px auto;
+  background: black;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+/* every photo slide sits on top of each other, filling the stage */
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.caption {
+  position: absolute;
+  bottom: 6px;
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-size: 18px;
+  text-shadow: 0 0 4px black;
+}
+
+#controls {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 10px;
+}
+
+#photoList {
+  list-style: none;
+  display: flex;
+  gap: 6px;
+  padding: 0;
+  margin: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+#photoList li {
+  width: 60px;
+  height: 60px;
+  cursor: grab;
+}
+
+#photoList img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+}

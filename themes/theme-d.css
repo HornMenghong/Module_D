@@ -1,0 +1,34 @@
+.theme-d .slide {
+  width: 85%;
+  height: 85%;
+  left: 7.5%;
+  top: 7.5%;
+  border: 5px solid white;
+  border-radius: 5px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  opacity: 0;
+  transition: transform 0.5s;
+  transform: translateX(-150px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  /* overflow: hidden; */
+}
+.theme-d .slide.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.theme-d img {
+  width: 100%;
+  height: 80%;
+  flex: 1;
+  border-radius: inherit;
+}
+.theme-d .caption {
+  position: static;
+  color: black;
+  background: white;
+  padding: 4px 0;
+}

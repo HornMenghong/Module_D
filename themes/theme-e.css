@@ -1,0 +1,45 @@
+/* simplified: fade + slight zoom feels like a "reveal" */
+.theme-e .slide {
+  transition: opacity 0.6s, transform 0.6s;
+  position: relative;
+  perspective: 1000px;
+  margin-bottom: 100px;
+}
+
+.theme-e .slide.show {
+  opacity: 1;
+}
+
+.theme-e .slide > div {
+  left: 0;
+  width: 50%;
+  height: 100%;
+  transition: 1s ease;
+  background-size: 200% 100%;
+}
+
+.theme-e .slide.show > div {
+  transform: rotateY(0deg);
+}
+
+.left {
+  left: 0;
+  background-position: 0 0;
+  transform-origin: left;
+  transform: rotateY(-90deg);
+}
+
+.right {
+  right: 0;
+  background-position: 100% 0;
+  transform-origin: right;
+  transform: rotateY(90deg);
+}
+
+.theme-e img {
+  display: none;
+}
+
+.theme-e .caption {
+  display: none;
+}

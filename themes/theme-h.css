@@ -1,0 +1,10 @@
+/* Change these 3 lines to make your own effect */
+.theme-h .slide {
+  opacity: 0;
+  transform: scale(0.5) rotate(15deg); /* starting look */
+  transition: all 0.6s;
+}
+.theme-h .slide.show {
+  opacity: 1;
+  transform: scale(1) rotate(0deg); /* ending look */
+}

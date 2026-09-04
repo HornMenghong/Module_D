@@ -1,0 +1,9 @@
+/* start: invisible */
+.theme-a .slide {
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+/* end: visible (JS adds this class) */
+.theme-a .slide.show {
+  opacity: 1;
+}

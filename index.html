@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="themes/theme-a.css">
+    <link rel="stylesheet" href="themes/theme-b.css">
+    <link rel="stylesheet" href="themes/theme-c.css">
+    <link rel="stylesheet" href="themes/theme-d.css">
+    <link rel="stylesheet" href="themes/theme-e.css">
+    <link rel="stylesheet" href="themes/theme-f.css">
+    <link rel="stylesheet" href="themes/theme-g.css">
+    <link rel="stylesheet" href="themes/theme-h.css">
+</head>
+
+<body>
+    <div id="dropzone">
+        Drag photos here or click to select
+        <input id="fileInput" type="file" multiple accept="image/*">
+    </div>
+
+    <div id="stage"></div>
+
+    <div id="controls">
+        <select id="modeSelect">
+            <option value="manual">Manual</option>
+            <option value="auto">Autoplay</option>
+            <option value="random">Random</option>
+        </select>
+
+        <select id="themeSelect">
+            <option value="a">A - Swap</option>
+            <option value="b">B - Slide</option>
+            <option value="c">C - Push</option>
+            <option value="d">D - Stack</option>
+            <option value="e">E - Split</option>
+            <option value="f">F - Cube</option>
+            <option value="g">G - Switch</option>
+            <option value="h">H - Custom</option>
+        </select>
+
+        <input id="timeInput" type="number" min="1" value="2"> sec
+
+        <button id="fullscreenBtn">Fullscreen</button>
+        <button id="exportBtn">Export</button>
+        <input id="importInput" type="file" accept="application/json">
+        <button id="resetBtn">Reset</button>
+    </div>
+
+    <ul id="photoList"></ul>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
