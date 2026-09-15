@@ -121,6 +121,8 @@ function showSlide(newIndex) {
     return;
   }
 
+  var oldIndex = currentIndex;  // remember direction BEFORE updating
+
   // wrap around if index goes below 0 or above the last photo
   if (newIndex < 0) {
     newIndex = photos.length - 1;
@@ -131,50 +133,36 @@ function showSlide(newIndex) {
   currentIndex = newIndex;
 
   var photo = photos[currentIndex];
-  if(currentTheme === "e")
-  {
-    var newSlide = document.createElement("div");
-    newSlide.className = "slide";
-    // newSlide.style.background = `url('${photo.url}') center/cover`;
 
-    var left = document.createElement('div');
-    left.className = "left";
-    left.style.backgroundImage = `url('${photo.url}')`; 
+  // build the new slide element
+  var newSlide = document.createElement("div");
+  newSlide.className = "slide";
 
-    var right = document.createElement('div');
-    right.className = "right";
-    right.style.backgroundImage = `url('${photo.url}')`; 
-    
-    newSlide.append(left);
-    newSlide.append(right);
+  var img = document.createElement("img");
+  img.src = photo.url;
+  newSlide.appendChild(img);
 
-    stage.appendChild(newSlide);
-  } else {
+  var caption = document.createElement("div");
+  caption.className = "caption";
+  caption.textContent = photo.caption;
+  newSlide.appendChild(caption);
 
-    // build the new slide element
-    var newSlide = document.createElement("div");
-    newSlide.className = "slide";
+  stage.appendChild(newSlide);
 
-    var img = document.createElement("img");
-    img.src = photo.url;
-    newSlide.appendChild(img);
-
-    var caption = document.createElement("div");
-    caption.className = "caption";
-    caption.textContent = photo.caption;
-    newSlide.appendChild(caption);
-
-    stage.appendChild(newSlide);
-  }
+  var oldSlide = stage.querySelector(".slide.show");
 
   // theme D just stacks photos, never removes old ones (except to limit count)
   if (currentTheme === "d") {
+    var rotation = Math.floor(Math.random() * 10) - 5;
+
+    // set starting position: off-left, no rotation yet
+    newSlide.style.transform = "translateX(-150px) rotate(0deg)";
+
     setTimeout(function () {
       newSlide.classList.add("show");
+      // set ending position: centered, with random tilt
+      newSlide.style.transform = "translateX(0) rotate(" + rotation + "deg)";
     }, 20);
-
-    var rotation = Math.floor(Math.random() * 10) - 5; // between -5 and 5
-    newSlide.style.transform = "rotate(" + rotation + "deg)";
 
     var allSlides = stage.querySelectorAll(".slide");
     if (allSlides.length > 6) {
@@ -183,10 +171,79 @@ function showSlide(newIndex) {
     return;
   }
 
-  // for all other themes: fade/slide the new one in, and the old one out
-  var oldSlide = stage.querySelector(".slide.show");
+  // theme E (window): the old photo splits into two halves that
+  // swing outward, revealing the new photo sitting behind them
+  if (currentTheme === "e") {
+    // the new photo appears instantly, behind the panels
+    newSlide.classList.add("show");
 
-  // tiny delay so the browser notices the "start" style before we animate
+    if (oldSlide) {
+      var leftPanel = document.createElement("div");
+      leftPanel.className = "panel left";
+
+      var leftInner = document.createElement("div");
+      leftInner.className = "inner slide";   // reuse .slide's centering styles
+      leftInner.innerHTML = oldSlide.innerHTML;
+      leftPanel.appendChild(leftInner);
+
+      var rightPanel = document.createElement("div");
+      rightPanel.className = "panel right";
+
+      var rightInner = document.createElement("div");
+      rightInner.className = "inner slide";
+      rightInner.innerHTML = oldSlide.innerHTML;
+      rightPanel.appendChild(rightInner);
+
+      oldSlide.remove();
+
+      stage.appendChild(leftPanel);
+      stage.appendChild(rightPanel);
+
+      // tiny delay so the browser notices the "closed" state before opening
+      setTimeout(function () {
+        leftPanel.classList.add("open");
+        rightPanel.classList.add("open");
+      }, 20);
+
+      setTimeout(function () {
+        leftPanel.remove();
+        rightPanel.remove();
+      }, 800);
+    }
+    return;
+  }
+
+  // theme F (cube): decide which way the cube turns
+  if (currentTheme === "f" || currentTheme === "g") {
+    var forward = (newIndex > oldIndex) ||
+                  (newIndex === 0 && oldIndex === photos.length - 1);
+    if (newIndex === oldIndex) {
+      forward = true;
+    }
+
+    if (!forward) {
+      newSlide.classList.add("rev");
+      if (oldSlide) {
+        oldSlide.classList.add("rev");
+      }
+    }
+
+    // tiny delay so the browser notices the "start" style before we animate
+    setTimeout(function () {
+      newSlide.classList.add("show");
+    }, 20);
+
+    if (oldSlide) {
+      oldSlide.classList.remove("show");
+      oldSlide.classList.add("hide");
+      setTimeout(function () {
+        oldSlide.remove();
+      }, 800);
+    }
+    return;
+  }
+
+  // for all other themes: fade/slide the new one in, and the old one out
   setTimeout(function () {
     newSlide.classList.add("show");
   }, 20);
@@ -229,6 +286,30 @@ function setMode(newMode) {
 }
 
 document.addEventListener("keydown", function (event) {
+  // open the command bar with Ctrl+K or "/" (unless already typing somewhere)
+  var typing = document.activeElement && document.activeElement.tagName === "INPUT";
+  if ((event.ctrlKey && (event.key === "k" || event.key === "K")) ||
+      (event.key === "/" && !typing)) {
+    event.preventDefault();
+    if (commandOpen) {
+      closeCommandBar();
+    } else {
+      openCommandBar();
+    }
+    return;
+  }
+
+  // ESC closes the command bar
+  if (event.key === "Escape" && commandOpen) {
+    closeCommandBar();
+    return;
+  }
+
+  // while the command bar is open, don't trigger slideshow shortcuts
+  if (commandOpen) {
+    return;
+  }
+
   if (currentMode === "manual") {
     if (event.key === "ArrowRight") {
       nextSlide();
@@ -341,6 +422,135 @@ function loadFromLocalStorage() {
   }
   setMode(data.mode || "manual");
 }
+
+
+// ---------- command bar (settings dropdown) ----------
+var settingsBtn = document.getElementById("settingsBtn");
+var commandBar = document.getElementById("commandBar");
+var commandInput = document.getElementById("commandInput");
+var commandList = document.getElementById("commandList");
+var dimOverlay = document.getElementById("dimOverlay");
+var commandOpen = false;
+var activeIndex = 0;
+var filteredCommands = [];
+
+function switchThemeByCommand(themeValue) {
+  themeSelect.value = themeValue;
+  themeSelect.onchange();   // reuse the existing handler
+}
+
+var commands = [
+  { label: "Switch theme: A - Swap",    action: function () { switchThemeByCommand("a"); } },
+  { label: "Switch theme: B - Slide",   action: function () { switchThemeByCommand("b"); } },
+  { label: "Switch theme: C - Push",    action: function () { switchThemeByCommand("c"); } },
+  { label: "Switch theme: D - Stack",   action: function () { switchThemeByCommand("d"); } },
+  { label: "Switch theme: E - Split",   action: function () { switchThemeByCommand("e"); } },
+  { label: "Switch theme: F - Cube",    action: function () { switchThemeByCommand("f"); } },
+  { label: "Switch theme: G - Switch",  action: function () { switchThemeByCommand("g"); } },
+  { label: "Switch theme: H - Custom",  action: function () { switchThemeByCommand("h"); } },
+  { label: "Mode: Manual Control",      action: function () { setMode("manual"); } },
+  { label: "Mode: Autoplay",            action: function () { setMode("auto"); } },
+  { label: "Mode: Random",              action: function () { setMode("random"); } },
+  { label: "Toggle fullscreen",         action: function () { stage.requestFullscreen(); } },
+  { label: "Export slideshow (JSON)",   action: function () { document.getElementById("exportBtn").onclick(); } },
+  { label: "Import slideshow (JSON)",   action: function () { document.getElementById("importInput").click(); } },
+  { label: "Reset slideshow",           action: function () { document.getElementById("resetBtn").onclick(); } }
+];
+
+function renderCommands() {
+  commandList.innerHTML = "";
+
+  var query = commandInput.value.toLowerCase();
+  filteredCommands = [];
+  for (var i = 0; i < commands.length; i++) {
+    if (commands[i].label.toLowerCase().indexOf(query) !== -1) {
+      filteredCommands.push(commands[i]);
+    }
+  }
+  if (activeIndex >= filteredCommands.length) {
+    activeIndex = 0;
+  }
+
+  for (var j = 0; j < filteredCommands.length; j++) {
+    var li = document.createElement("li");
+    li.textContent = filteredCommands[j].label;
+    if (j === activeIndex) {
+      li.className = "active";
+    }
+    li.onclick = (function (index) {
+      return function () {
+        runCommand(index);
+      };
+    })(j);
+    commandList.appendChild(li);
+  }
+
+  // keep the highlighted command visible while arrowing through the list
+  var activeLi = commandList.querySelector("li.active");
+  if (activeLi) {
+    activeLi.scrollIntoView({ block: "nearest" });
+  }
+}
+
+function runCommand(index) {
+  var cmd = filteredCommands[index];
+  closeCommandBar();
+  if (cmd) {
+    cmd.action();
+  }
+}
+
+function openCommandBar() {
+  commandOpen = true;
+  commandBar.classList.remove("hidden");
+  dimOverlay.classList.add("visible");
+  commandInput.value = "";
+  activeIndex = 0;
+  renderCommands();
+  commandInput.focus();
+}
+
+function closeCommandBar() {
+  commandOpen = false;
+  commandBar.classList.add("hidden");
+  dimOverlay.classList.remove("visible");
+  commandInput.blur();
+}
+
+settingsBtn.onclick = function (event) {
+  event.stopPropagation();
+  if (commandOpen) {
+    closeCommandBar();
+  } else {
+    openCommandBar();
+  }
+};
+
+dimOverlay.onclick = closeCommandBar;
+
+commandInput.oninput = function () {
+  activeIndex = 0;
+  renderCommands();
+};
+
+commandInput.onkeydown = function (event) {
+  event.stopPropagation();   // keep keys from reaching the slideshow handler
+  if (event.key === "ArrowDown") {
+    event.preventDefault();
+    activeIndex = Math.min(activeIndex + 1, filteredCommands.length - 1);
+    renderCommands();
+  } else if (event.key === "ArrowUp") {
+    event.preventDefault();
+    activeIndex = Math.max(activeIndex - 1, 0);
+    renderCommands();
+  } else if (event.key === "Enter") {
+    event.preventDefault();
+    runCommand(activeIndex);
+  } else if (event.key === "Escape") {
+    event.preventDefault();
+    closeCommandBar();
+  }
+};
 
 // ---------- run this when the page loads ----------
 loadFromLocalStorage();

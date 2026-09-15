@@ -3,32 +3,38 @@
   height: 85%;
   left: 7.5%;
   top: 7.5%;
-  border: 5px solid white;
+  display: flex;
+  flex-direction: column;
+  border: 3px solid white;
   border-radius: 5px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.5);
   opacity: 0;
-  transition: transform 0.5s;
   transform: translateX(-150px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  /* overflow: hidden; */
+  transition: opacity 0.5s, transform 0.5s;
+  overflow: hidden;   /* ADD — so the image can't spill outside the rounded border */
 }
+
 .theme-d .slide.show {
   opacity: 1;
   transform: translateX(0);
 }
 
-.theme-d img {
-  width: 100%;
+.theme-d .slide img {
+  width: 100%;          /* CHANGE — fill the full width of the frame */
+  flex: 1;               /* ADD — fill all remaining height above the caption */
+  object-fit: cover;     /* ADD — crop the image to fill the box, no gaps */
+  display: block;
   height: 80%;
-  flex: 1;
-  border-radius: inherit;
 }
+
 .theme-d .caption {
   position: static;
+  width: 100%;
+  box-sizing: border-box;
   color: black;
   background: white;
-  padding: 4px 0;
+  padding: 6px 0;
+  font-size: 14px;
+  text-align: center;
+  flex-shrink: 0;   /* ADD — so the caption strip keeps its height and doesn't get squeezed */
 }

@@ -14,9 +14,11 @@
     <link rel="stylesheet" href="themes/theme-f.css">
     <link rel="stylesheet" href="themes/theme-g.css">
     <link rel="stylesheet" href="themes/theme-h.css">
+    <base target="_blank">
 </head>
 
 <body>
+
     <div id="dropzone">
         Drag photos here or click to select
         <input id="fileInput" type="file" multiple accept="image/*">
@@ -24,7 +26,22 @@
 
     <div id="stage"></div>
 
-    <div id="controls">
+    <div id="topbar">
+        <button id="settingsBtn" title="Settings (Ctrl+K or /)">&#9881;</button>
+    </div>
+
+    <div id="dimOverlay"></div>
+
+    <div id="commandBar" class="hidden">
+        <input id="commandInput" type="text" placeholder="Type a command... (theme, mode, export)">
+        <ul id="commandList"></ul>
+        <div id="commandFooter">
+            Interval: <input id="timeInput" type="number" min="1" value="2"> sec
+        </div>
+    </div>
+
+    <!-- legacy controls: kept in the DOM (hidden) so the existing JS keeps working -->
+    <div id="controls" style="display:none">
         <select id="modeSelect">
             <option value="manual">Manual</option>
             <option value="auto">Autoplay</option>
@@ -41,8 +58,6 @@
             <option value="g">G - Switch</option>
             <option value="h">H - Custom</option>
         </select>
-
-        <input id="timeInput" type="number" min="1" value="2"> sec
 
         <button id="fullscreenBtn">Fullscreen</button>
         <button id="exportBtn">Export</button>

@@ -1,9 +1,18 @@
 .theme-g .slide {
-  opacity: 0;
-  transform: scale(0.9);
-  transition: opacity 0.8s, transform 0.8s;
+  backface-visibility: hidden;
+  transform-origin: left right;
 }
+
+.theme-g .slide:not(.show):not(.hide) {
+  transform: scale(0.75) translateX(110%) rotateY(-75deg);
+}
+
 .theme-g .slide.show {
-  opacity: 1;
-  transform: scale(1);
+  transform: translateX(0) rotateY(0deg);
+  transition: transform 1.2s ease-out;
+}
+
+.theme-g .slide.hide {
+  transform: scale(0.8) translateX(-100%) rotateY(90deg);
+  transition: 1.2s ease-out;
 }

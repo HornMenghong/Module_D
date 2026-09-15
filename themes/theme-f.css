@@ -1,18 +1,21 @@
-#stage {
-  perspective: 1000px; /* needed for 3D rotation to look real */
+.theme-f .slide {
+  translate: -50%;
+  backface-visibility: hidden;
+  transform-origin: center;
 }
 
-
-.theme-f .slide {
-  position: relative;
-  transition: transform 0.7s;
+.theme-f .slide:not(.show):not(.hide) {
+  left: 100%;
   transform: rotateY(90deg);
 }
 
 .theme-f .slide.show {
-  transform: rotateY(45deg);
+  left: 0;
+  transform: translateX(50%) rotateY(0deg);
+  transition: transform 0.7s ease, left 0.7s ease;
 }
 
 .theme-f .slide.hide {
   transform: rotateY(-90deg);
+  transition: transform 0.7s ease;
 }
