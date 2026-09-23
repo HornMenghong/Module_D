@@ -8,3 +8,37 @@
   opacity: 1;
   transform: scale(1) rotate(0deg); /* ending look */
 }
+
+.theme-h .caption {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: fit-content;
+  font-size: 18px;
+  padding: 10px 20px;
+  background: white;
+  border-radius: 0 10px 0 0;
+}
+
+.theme-h .caption .word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateX(50px);
+  animation: captionWordFlyIn 1.2s ease-out forwards;
+}
+
+@keyframes captionWordFlyIn {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

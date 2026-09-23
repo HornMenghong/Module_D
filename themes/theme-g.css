@@ -1,18 +1,26 @@
 .theme-g .slide {
   backface-visibility: hidden;
-  transform-origin: left right;
+  transform-origin: right center;
 }
 
 .theme-g .slide:not(.show):not(.hide) {
-  transform: scale(0.75) translateX(110%) rotateY(-75deg);
+  left: 20%;
+  transform: rotateY(-100deg);
 }
 
 .theme-g .slide.show {
-  transform: translateX(0) rotateY(0deg);
-  transition: transform 1.2s ease-out;
+  left: 0;
+  transform: rotateY(0deg);
+  transition: 1.7s ease;
 }
 
 .theme-g .slide.hide {
-  transform: scale(0.8) translateX(-100%) rotateY(90deg);
-  transition: 1.2s ease-out;
+  left: -20%;
+  transform-origin: left center;
+  transform: rotateY(90deg);
+  transition: 1.2s ease;
+}
+
+.theme-g .caption {
+  display: none;
 }

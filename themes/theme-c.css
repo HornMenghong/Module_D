@@ -8,3 +8,37 @@
 .theme-c .slide.hide {
   transform: translateY(-100%);
 }
+
+.theme-c .caption {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: fit-content;
+  font-size: 18px;
+  padding: 10px 20px;
+  background: white;
+  border-radius: 0 10px 0 0;
+}
+
+.theme-c .caption .word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: captionWordFlyUp 1.2s ease-out forwards;
+}
+
+@keyframes captionWordFlyUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

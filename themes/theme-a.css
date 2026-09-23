@@ -7,3 +7,14 @@
 .theme-a .slide.show {
   opacity: 1;
 }
+
+.theme-a .caption {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: fit-content;
+  font-size: 18px;
+  padding: 10px 20px;
+  background: white;
+  border-radius: 0 10px 0 0;
+}

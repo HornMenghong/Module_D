@@ -1,6 +1,5 @@
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
   background: #eee;
 }
 
@@ -21,7 +20,6 @@ body {
   margin: 10px auto;
   background: black;
   overflow: hidden;
-  border-radius: 8px;
 
   perspective: 1400px;   /* ADD THIS — creates the 3D depth effect */
 }
@@ -47,12 +45,13 @@ body {
 
 .caption {
   position: absolute;
-  bottom: 6px;
-  width: 100%;
-  text-align: center;
-  color: white;
+  left: 0;
+  bottom: 0;
+  width: fit-content;
   font-size: 18px;
-  text-shadow: 0 0 4px black;
+  padding: 10px 20px;
+  background: white;
+  border-radius: 0 10px 0 0;
 }
 
 #topbar {
@@ -72,6 +71,11 @@ body {
 }
 #settingsBtn:hover {
   background: #e2e2e2;
+}
+
+.setting-icon {
+  width: 50px;
+  aspect-ratio: 1/1;
 }
 
 /* the dropdown command bar */

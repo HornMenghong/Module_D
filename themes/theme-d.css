@@ -20,21 +20,17 @@
 }
 
 .theme-d .slide img {
-  width: 100%;          /* CHANGE — fill the full width of the frame */
-  flex: 1;               /* ADD — fill all remaining height above the caption */
+  width: 100%;          /* CHANGE — fill the full width of the frame */        /* ADD — fill all remaining height above the caption */
   object-fit: cover;     /* ADD — crop the image to fill the box, no gaps */
   display: block;
-  height: 80%;
 }
 
 .theme-d .caption {
-  position: static;
   width: 100%;
-  box-sizing: border-box;
   color: black;
   background: white;
   padding: 6px 0;
   font-size: 14px;
-  text-align: center;
-  flex-shrink: 0;   /* ADD — so the caption strip keeps its height and doesn't get squeezed */
+  flex-shrink: 0;
+  border-radius: 0;
 }

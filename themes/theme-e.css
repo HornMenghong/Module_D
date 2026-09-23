@@ -1,4 +1,8 @@
 /* the new photo just sits behind the panels, fully visible */
+#stage.theme-e {
+  overflow: visible;
+}
+
 .theme-e .slide {
   opacity: 1;
 }
@@ -30,5 +34,9 @@
 }
 
 /* open the window */
-.theme-e .panel.left.open  { transform: rotateY(-100deg); }
-.theme-e .panel.right.open { transform: rotateY(100deg); }
+.theme-e .panel.left.open  { transform: rotateY(-75deg); }
+.theme-e .panel.right.open { transform: rotateY(75deg); }
+
+.theme-e .caption {
+  display: none;
+}

@@ -22,7 +22,7 @@ function makeCaption(filename) {
   var name = filename.replace(/\.[^/.]+$/, "");   // remove .jpg/.png etc
   name = name.replace(/-/g, " ");                  // replace hyphens with spaces
   name = name.replace(/_/g, " ");                  // replace underscores with spaces
-
+  console.log(name);
   var words = name.split(" ");
   var result = "";
   for (var i = 0; i < words.length; i++) {
@@ -144,7 +144,29 @@ function showSlide(newIndex) {
 
   var caption = document.createElement("div");
   caption.className = "caption";
+  if (currentTheme === "c" || currentTheme === "h") {
+  var words = photo.caption.split(/\s+/);
+
+  for (var i = 0; i < words.length; i++) {
+    if (words[i].length > 0) {
+      var word = document.createElement("span");
+      word.className = "word";
+      word.textContent = words[i];
+      word.style.animationDelay = (i * 0.15) + "s";
+
+      caption.appendChild(word);
+
+      // Add a space between words
+      if (i < words.length - 1) {
+        caption.appendChild(document.createTextNode(" "));
+      }
+    }
+  }
+  } else {
+  // Normal caption for all other themes
   caption.textContent = photo.caption;
+  }
+
   newSlide.appendChild(caption);
 
   stage.appendChild(newSlide);

@@ -19,3 +19,7 @@
   transform: rotateY(-90deg);
   transition: transform 0.7s ease;
 }
+
+.theme-f .caption {
+  display: none;
+}

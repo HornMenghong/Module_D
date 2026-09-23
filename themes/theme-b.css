@@ -9,3 +9,24 @@
 .theme-b .slide.hide {
   transform: translateX(100%);
 }
+
+.theme-b .caption {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: fit-content;
+  font-size: 18px;
+  padding: 10px 20px;
+  background: white;
+  border-radius: 0 10px 0 0;
+  animation: slideIn 0.7s ease-in;
+}
+
+@keyframes slideIn {
+  from {
+    left: -100%;
+  }
+  to {
+    left: 0;
+  }
+}
